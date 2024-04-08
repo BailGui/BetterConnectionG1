@@ -18,13 +18,14 @@
 require_once "menu.view.php";
     ?>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('assets/img/space2.jpg')">
+        <header class="masthead" style="background-image: url('assets/img/home-bg.jpg')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="site-heading">
-                            <h1>BetterConnection</h1>
-                            <span class="subheading">Site d'actualités sur l'astronomie</span>
+                            <h1>homepage</h1>
+                            <span class="subheading">Notre page d'accueil</span>
+                            <p>Du blabla</p>
                         </div>
                     </div>
                 </div>
@@ -34,24 +35,38 @@ require_once "menu.view.php";
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
+                    <?php
+                    foreach($newsHomepage as $item):
+                    ?>
                     <!-- Post preview-->
                     <div class="post-preview">
-                        <a href="post.html">
-                        <?php 
-                        foreach($allNews as $itemNews):
-                            ?>
-                            <h2 class="post-title"><a href="?section=<?=$itemNews['slug']?>"><?=$itemNews['title']?></a></h2>
-                            <h5><a href="?section=<?=$itemNews['slug']?>"><?=$itemNews['cont']?></a>...</h5>
-                            <div><a href="?section=<?=$itemMenu['categ_slug']?>"></a></div>
-                            <p class="post-meta">Posted by <?=$itemNews['thename']?> on <?=$itemNews['date_published']?></p>
-                            <hr class="my-4" />
+                        <a href="?detailArticle=<?=$item['slug']?>">
+                            <h2 class="post-title"><?=$item['title']?></h2>
+                            <h5 class="post-subtitle"><?=cutTheText($item['content'],255)?>... Lire la suite</h5>
+                        </a>
+                        <p class="post-meta">
+                            Posté par
                             <?php
-                        endforeach;
+                            // si pas d'utilisateur ($item['thename'] === null) l'opérateur de coalescence (fusion) ?? fait la même chose que cette condition, on affiche anonyme
+                            $name = $item['thename'] ?? "Anonyme";
+                            $linkName = $item['login'] ?? "#";
                             ?>
+                            <a href="?author=<?=$linkName?>"><?=$name?></a>
+                            <?php
+                            // pour gérer l'abscence de date de publication
+                            $date = $item['date_published'] ?? "";
+                            // conversion de la date en timestamp
+                            $date = strtotime($date);
+                            // si date n'est pas faux
+                            echo ($date)? " le ".date("d/m/Y \à H\hi",$date): " Pas publié !";
+                            ?>
+                        </p>
                     </div>
                     <!-- Divider-->
-                    <!-- Pager-->
-                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                    <hr class="my-4" />
+                    <?php
+                    endforeach;
+                    ?>
                 </div>
             </div>
         </div>
