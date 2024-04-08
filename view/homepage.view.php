@@ -42,6 +42,7 @@ require_once "menu.view.php";
                             ?>
                             <h2 class="post-title"><a href="?section=<?=$itemNews['slug']?>"><?=$itemNews['title']?></a></h2>
                             <h5><a href="?section=<?=$itemNews['slug']?>"><?=$itemNews['cont']?></a>...</h5>
+                            <div><a href="?section=<?=$itemMenu['categ_slug']?>"></a></div>
                             <p class="post-meta">Posted by <?=$itemNews['thename']?> on <?=$itemNews['date_published']?></p>
                             <hr class="my-4" />
                             <?php
